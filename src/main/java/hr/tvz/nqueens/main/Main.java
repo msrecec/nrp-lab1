@@ -15,7 +15,60 @@ public class Main {
 
         board = setBoard(board, N);
 
+        for(int i = 0; i < N; ++i) {
+            for(int j = 0; j < N; ++j) {
+                if(board[i][j]) {
+                    System.out.println("---------------");
+                    System.out.println("Up");
+                    System.out.println(up(i,j,board,N));
+                    System.out.println("Down");
+                    System.out.println(down(i,j,board,N));
+                    System.out.println("Right");
+                    System.out.println(right(i,j,board,N));
+                    System.out.println("Left");
+                    System.out.println(left(i,j,board,N));
+                    System.out.println("---------------");
+                }
+            }
+        }
+
         printPositions(board, N);
+    }
+
+    private static boolean up(int x, int y, boolean[][] board, int N) {
+        for(int i = x-1; i >= 0; --i) {
+            if(board[i][y]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean down(int x, int y, boolean[][] board, int N) {
+        for(int i = x+1; i < N; ++i) {
+            if(board[i][y]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean right(int x, int y, boolean[][] board, int N) {
+        for(int i = y+1; i < N; ++i) {
+            if(board[x][i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean left(int x, int y, boolean[][] board, int N) {
+        for(int i = y-1; i >= 0; --i) {
+            if(board[x][i]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean [][] setBoard(boolean [][] board, int N) {
