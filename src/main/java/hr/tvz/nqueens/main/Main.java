@@ -8,30 +8,32 @@ public class Main {
     public static void main(String[] args) {
         int N = 4;
 
-
         boolean board [][] = new boolean[N][N];
 
-        board = clear(board, N);
+        int numOfIterations = 0;
 
-        board = setBoard(board, N);
-
-        for(int i = 0; i < N; ++i) {
-            for(int j = 0; j < N; ++j) {
-                if(board[i][j]) {
-                    System.out.println("---------------");
-                    System.out.println("Up");
-                    System.out.println(up(i,j,board,N));
-                    System.out.println("Down");
-                    System.out.println(down(i,j,board,N));
-                    System.out.println("Right");
-                    System.out.println(right(i,j,board,N));
-                    System.out.println("Left");
-                    System.out.println(left(i,j,board,N));
-                    System.out.println("---------------");
+        while(true) {
+            boolean flag = false;
+            numOfIterations++;
+            board = clear(board, N);
+            board = setBoard(board, N);
+            for(int i = 0; i < N; ++i) {
+                for(int j = 0; j < N; ++j) {
+                    if(board[i][j]) {
+                        if(up(i,j,board,N) || down(i,j,board,N) || left(i,j,board,N) || right(i,j,board,N)) {
+                            flag = true;
+                        }
+                    }
                 }
             }
+            if(flag) {
+                System.out.println("Number of iterations " + numOfIterations);
+                printPositions(board, N);
+                continue;
+            }
+            break;
         }
-
+        System.out.println("Final number of iterations " + numOfIterations);
         printPositions(board, N);
     }
 
