@@ -10,6 +10,21 @@ public class Main {
 
         boolean board [][] = new boolean[N][N];
 
+//        int sum = 0;
+
+//        for(int i = 0; i < 10000; ++i) {
+//            sum += conventional(board, N);
+//        }
+
+//        System.out.println("Median number of iterations " + sum/10000);
+
+        var numOfIterations = conventional(board, N);
+
+        System.out.println("Number of iterations: " + numOfIterations);
+
+    }
+
+    private static int conventional(boolean[][] board, int N) {
         int numOfIterations = 0;
 
         while(true) {
@@ -20,21 +35,30 @@ public class Main {
             for(int i = 0; i < N; ++i) {
                 for(int j = 0; j < N; ++j) {
                     if(board[i][j]) {
-                        if(up(i,j,board,N) || down(i,j,board,N) || left(i,j,board,N) || right(i,j,board,N)) {
+                        if(
+                                up(i,j,board,N) ||
+                                down(i,j,board,N) ||
+                                left(i,j,board,N) ||
+                                right(i,j,board,N) ||
+                                rightUp(i,j,board,N) ||
+                                leftUp(i,j,board,N) ||
+                                rightDown(i,j,board,N) ||
+                                leftDown(i,j,board,N)
+                        ) {
                             flag = true;
                         }
                     }
                 }
             }
             if(flag) {
-                System.out.println("Number of iterations " + numOfIterations);
-                printPositions(board, N);
                 continue;
             }
             break;
         }
-        System.out.println("Final number of iterations " + numOfIterations);
         printPositions(board, N);
+        System.out.println("--------------------");
+
+        return numOfIterations;
     }
 
     private static boolean up(int x, int y, boolean[][] board, int N) {
@@ -69,6 +93,70 @@ public class Main {
             if(board[x][i]) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    private static boolean leftUp(int x, int y, boolean[][] board, int N) {
+        int i = x-1;
+        int j = y-1;
+        while(true) {
+            if(i < 0 || j < 0) {
+                break;
+            }
+            if(board[i][j]) {
+                return true;
+            }
+            --i;
+            --j;
+        }
+        return false;
+    }
+
+    private static boolean leftDown(int x, int y, boolean[][] board, int N) {
+        int i = x+1;
+        int j = y-1;
+        while(true) {
+            if(i == N || j < 0) {
+                break;
+            }
+            if(board[i][j]) {
+                return true;
+            }
+            ++i;
+            --j;
+        }
+        return false;
+    }
+
+    private static boolean rightUp(int x, int y, boolean[][] board, int N) {
+        int i = x-1;
+        int j = y+1;
+        while(true) {
+            if(i < 0 || j == N) {
+                break;
+            }
+            if(board[i][j]) {
+                return true;
+            }
+            --i;
+            ++j;
+        }
+        return false;
+    }
+
+    private static boolean rightDown(int x, int y, boolean[][] board, int N) {
+        int i = x+1;
+        int j = y+1;
+        while(true) {
+            if(i == N || j == N) {
+                break;
+            }
+            if(board[i][j]) {
+                return true;
+            }
+            ++i;
+            ++j;
         }
         return false;
     }
