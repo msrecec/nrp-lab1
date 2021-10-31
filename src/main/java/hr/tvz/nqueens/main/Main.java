@@ -7,26 +7,14 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) {
-        int N = 4;
+
+        int N = 5;
 
         int board [] = new int[N];
-
-        board = setUpConventional(board, N);
 
         board = conventional(board, N);
 
         printPositions(board, N);
-
-//        int board[] = {2, 0, 3, 1};
-//
-//        System.out.println(attackLeft(board, 4));
-//        System.out.println(attackRight(board, 4));
-//        System.out.println(attackDiagonalLeft(board, 4));
-//        System.out.println(attackDiagonalRight(board, 4));
-//
-//        if(!attackAllPositions(board, N)) {
-//            printPositions(board, N);
-//        }
 
     }
 
@@ -43,62 +31,46 @@ public class Main {
     private static int [] conventional(int[] board, int N) {
         while(true) {
             board = setUpConventional(board, N);
-            if(!attackAllPositions(board, N)) break;
+            if(attackAllPositions(board, N) == 0) break;
         }
         return board;
     }
 
-    private static boolean attackAllPositions(int[] board, int N) {
-        return
-                attackLeft(board, N) ||
-                attackRight(board, N) ||
-                attackDiagonalLeft(board, N) ||
-                attackDiagonalRight(board, N);
+    /**
+     * Returns total number of clashes
+     *
+     * @param board
+     * @param N
+     * @return
+     */
+
+    private static int attackAllPositions(int[] board, int N) {
+        return horizontal(board, N) + diagonal(board, N);
     }
 
 
-    private static boolean attackLeft(int[] board, int N) {
+    private static int horizontal(int[] board, int N) {
+        int buff = 0;
         for(int i = N-1; i >= 0; --i) {
             for(int j = i-1; j >= 0; --j) {
                 if(board[i] == board[j]) {
-                    return true;
+                    buff++;
                 }
             }
         }
-        return false;
+        return buff;
     }
 
-    private static boolean attackRight(int[] board, int N) {
-        for(int i = 0; i < N; ++i) {
-            for(int j = i+1; j < N; ++j) {
-                if(board[i] == board[j]) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private static boolean attackDiagonalRight(int[] board, int N) {
+    private static int diagonal(int[] board, int N) {
+        int buff = 0;
         for(int i = 0; i < N; ++i) {
             for(int j = i+1; j < N; ++j) {
                 if(Math.abs(board[i] - board[j]) == Math.abs(j-i)) {
-                    return true;
+                    buff++;
                 }
             }
         }
-        return false;
-    }
-
-    private static boolean attackDiagonalLeft(int[] board, int N) {
-        for(int i = N-1; i >= 0; --i) {
-            for(int j = i-1; j >= 0; --j) {
-                if(Math.abs(board[i] - board[j]) == Math.abs(i-j)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return buff;
     }
 
 
