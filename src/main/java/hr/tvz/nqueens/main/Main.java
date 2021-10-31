@@ -16,15 +16,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        int N = 4;
+        int N = 8;
 
-//        int board [] = new int[N];
-//
-//        board = conventional(board, N);
-//
-//        printPositions(board, N);
-//
-//        System.out.println(getFitness(board, N));
+//        runConventional(N);
 
         // 4, 0.001, 1000
 
@@ -34,39 +28,14 @@ public class Main {
 
         System.out.println(geneticAlgorithm.algorithm());
 
-
     }
 
-    /**
-     * Returns newly generated population
-     *
-     * @param size number of chromosomes in the population
-     * @param N size of the chromosome
-     * @return population
-     */
+    private static void runConventional(int N) {
+        int board [] = new int[N];
 
-    private static List<int[]> generatePopulation(int size, int N) {
-        List<int[]> population = new ArrayList<>();
-        for(int i = 0; i < size; ++i) {
-            population.add(setUpConventional(new int[N], N));
-        }
-        return population;
-    }
+        board = conventional(board, N);
 
-    /**
-     * Returns the fitness function with N choose 2 - number of conflicts as the value of fitness function
-     *
-     * @param board
-     * @param N
-     * @return
-     */
-
-    private static double getFitness(int[] board, int N) {
-        return maxClashes(N) - numberOfConflicts(board, N);
-    }
-
-    private static void genetic(int[] board, int N) {
-
+        printPositions(board, N);
     }
 
 

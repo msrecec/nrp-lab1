@@ -39,9 +39,72 @@ public class Chromosome implements Comparable<Chromosome> {
     }
 
     public void computeConflicts() {
-        this.conflicts = numberOfConflicts(gene, MAX_LENGTH);
+//        this.conflicts = numberOfConflicts(gene, MAX_LENGTH);
+        String board[][] = new String[MAX_LENGTH][MAX_LENGTH]; //initialize board
+        int x = 0; //row
+        int y = 0; //column
+        int tempx = 0; //temprow
+        int tempy = 0; //temcolumn
+
+        int dx[] = new int[] {-1, 1, -1, 1}; //to check for diagonal
+        int dy[] = new int[] {-1, 1, 1, -1}; //paired with dx to check for diagonal
+
+        boolean done = false; //used to check is checking fo diagonal is out of bounds
+        int conflicts = 0; //number of conflicts found
+
+        clearBoard(board); //clears the board into empty strings
+        plotQueens(board); // plots the Q in the board
+
+        // Walk through each of the Queens and compute the number of conflicts.
+        for(int i = 0; i < MAX_LENGTH; i++) {
+            x = i;
+            y = gene[i];
+
+            // Check diagonals.
+            for(int j = 0; j < 4; j++) { // because of dx and dy where there are 4 directions for diagonal searching for conflicts
+                tempx = x;
+                tempy = y; // store coordinate in temp
+                done = false;
+
+                while(!done) {//traverse the diagonals
+                    tempx += dx[j];
+                    tempy += dy[j];
+
+                    if((tempx < 0 || tempx >= MAX_LENGTH) || (tempy < 0 || tempy >= MAX_LENGTH)) { //if exceeds board
+                        done = true;
+                    } else {
+                        if(board[tempx][tempy].equals("Q")) {
+                            conflicts++;
+                        }
+                    }
+                }
+            }
+        }
+
+        this.conflicts = conflicts; //set conflicts of this chromosome
     }
 
+    /* Plots the queens in the board.
+     *
+     * @param: a nxn board
+     */
+    public void plotQueens(String[][] board) {
+        for(int i = 0; i < MAX_LENGTH; i++) {
+            board[i][gene[i]] = "Q";
+        }
+    }
+
+    /* Clears the board.
+     *
+     * @param: a nxn board
+     */
+    public void clearBoard(String[][] board) {
+        for (int i = 0; i < MAX_LENGTH; i++) {
+            for (int j = 0; j < MAX_LENGTH; j++) {
+                board[i][j] = "";
+            }
+        }
+    }
 
 
     /**
