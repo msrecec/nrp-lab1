@@ -1,8 +1,15 @@
 package hr.tvz.nqueens.main;
 
+import io.jenetics.BitChromosome;
+import io.jenetics.BitGene;
+import io.jenetics.Crossover;
+import io.jenetics.Genotype;
 import io.jenetics.internal.math.Combinatorics;
+import io.jenetics.util.Factory;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Main {
@@ -11,15 +18,46 @@ public class Main {
 
         int N = 4;
 
-        int board [] = new int[N];
+//        int board [] = new int[N];
+//
+//        board = conventional(board, N);
+//
+//        printPositions(board, N);
+//
+//        System.out.println(getFitness(board, N));
 
-        board = conventional(board, N);
 
-        double fitness = maxClashes(N) - numberOfConflicts(board, N);
+    }
 
-        printPositions(board, N);
+    /**
+     * Returns newly generated population
+     *
+     * @param size number of chromosomes in the population
+     * @param N size of the chromosome
+     * @return population
+     */
 
-        System.out.println(fitness);
+    private static List<int[]> generatePopulation(int size, int N) {
+        List<int[]> population = new ArrayList<>();
+        for(int i = 0; i < size; ++i) {
+            population.add(setUpConventional(new int[N], N));
+        }
+        return population;
+    }
+
+    /**
+     * Returns the fitness function with N choose 2 - number of conflicts as the value of fitness function
+     *
+     * @param board
+     * @param N
+     * @return
+     */
+
+    private static double getFitness(int[] board, int N) {
+        return maxClashes(N) - numberOfConflicts(board, N);
+    }
+
+    private static void genetic(int[] board, int N) {
 
     }
 
