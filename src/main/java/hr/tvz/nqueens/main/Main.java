@@ -1,104 +1,88 @@
 package hr.tvz.nqueens.main;
 
-import io.jenetics.BitChromosome;
-import io.jenetics.BitGene;
-import io.jenetics.Crossover;
-import io.jenetics.Genotype;
-import io.jenetics.internal.math.Combinatorics;
-import io.jenetics.util.Factory;
+import hr.tvz.nqueens.main.entity.QueenFitnessFunction;
 import org.apache.commons.math3.util.CombinatoricsUtils;
+import org.jgap.*;
+import org.jgap.impl.DefaultConfiguration;
+import org.jgap.impl.IntegerGene;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 public class Main {
+    private static final int NUMBER_OF_EVOLUTIONS = 500000;
+    private static final int NUMBER_OF_QUEENS = 8;
+    private static final int POPUL = 200;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidConfigurationException {
+        int evos = 0;
+        Configuration conf = new DefaultConfiguration();
+        FitnessFunction myFunc = new QueenFitnessFunction(NUMBER_OF_QUEENS);
+        conf.setFitnessFunction(myFunc);
+        conf.setKeepPopulationSizeConstant(true);
+        conf.setPreservFittestIndividual(true);
 
-        int N = 8;
+        Gene[] sampleGenes = new Gene[NUMBER_OF_QUEENS];
 
-//        runConventional(N);
-
-        // 4, 0.001, 1000
-
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(N);
-        geneticAlgorithm.setMutation(0.001);
-        geneticAlgorithm.setEpoch(1000);
-
-        System.out.println(geneticAlgorithm.algorithm());
-
-    }
-
-    private static void runConventional(int N) {
-        int board [] = new int[N];
-
-        board = conventional(board, N);
-
-        printPositions(board, N);
-    }
-
-
-    private static int [] setUpConventional(int [] board, int N) {
-        Random random = new Random();
-
-        for(int i = 0; i < N; ++i) {
-            board[i] = random.nextInt(N);
+        for (int i = 0; i < NUMBER_OF_QUEENS; i++) {
+            sampleGenes[i] = new IntegerGene(conf, 0, NUMBER_OF_QUEENS - 1);
         }
 
-        return board;
-    }
+        Chromosome sampleChromosome = new Chromosome(conf, sampleGenes);
 
-    private static int [] conventional(int[] board, int N) {
-        while(true) {
-            board = setUpConventional(board, N);
-            if(numberOfConflicts(board, N) == 0) break;
+        conf.setSampleChromosome(sampleChromosome);
+        conf.setPopulationSize(POPUL);
+        Genotype population = Genotype.randomInitialGenotype(conf);
+
+        Chromosome theBest = (Chromosome) population.getFittestChromosome();
+        ArrayList<Integer> geneList = new ArrayList<>();
+
+        long startTime = System.nanoTime();
+
+        for (int i = 0; i < NUMBER_OF_EVOLUTIONS; i++) {
+
+            if (((Chromosome) population.getFittestChromosome())
+                    .getFitnessValue() == (NUMBER_OF_QUEENS * (NUMBER_OF_QUEENS - 1) * 0.5))
+                break;
+
+            population.evolve();
+            evos++;
         }
-        return board;
-    }
+        long timeElapsed = System.nanoTime() - startTime;
+        System.out.println("Best solution: ");
+        theBest = (Chromosome) population.getFittestChromosome();
 
+        geneList.clear();
 
-    private static int maxClashes(int N) {
-        return (int)CombinatoricsUtils.binomialCoefficient(N, 2);
-    }
-
-    /**
-     * Returns total number of clashes
-     *
-     * @param board
-     * @param N
-     * @return
-     */
-
-    public static int numberOfConflicts(int[] board, int N) {
-        return horizontal(board, N) + diagonal(board, N);
-    }
-
-
-    private static int horizontal(int[] board, int N) {
-        int buff = 0;
-        for(int i = N-1; i >= 0; --i) {
-            for(int j = i-1; j >= 0; --j) {
-                if(board[i] == board[j]) {
-                    buff++;
-                }
-            }
+        for (int j = 0; j < NUMBER_OF_QUEENS; j++) {
+            geneList.add((Integer) theBest.getGenes()[j].getAllele());
         }
-        return buff;
-    }
-
-    private static int diagonal(int[] board, int N) {
-        int buff = 0;
-        for(int i = 0; i < N; ++i) {
-            for(int j = i+1; j < N; ++j) {
-                if(Math.abs(board[i] - board[j]) == Math.abs(j-i)) {
-                    buff++;
-                }
-            }
+        for (int j = 0; j < NUMBER_OF_QUEENS; j++) {
+            System.out.println(geneList.get(j).toString());
         }
-        return buff;
-    }
+        System.out.println("Best fitness " + theBest.getFitnessValue());
+        System.out.println("Number of evolutions " + evos);
+        System.out.println((timeElapsed / 1000000) + "ms");
 
+        int[] board = {
+                (int)theBest.getGenes()[0].getAllele(),
+                (int)theBest.getGenes()[1].getAllele(),
+                (int)theBest.getGenes()[2].getAllele(),
+                (int)theBest.getGenes()[3].getAllele(),
+                (int)theBest.getGenes()[4].getAllele(),
+                (int)theBest.getGenes()[5].getAllele(),
+                (int)theBest.getGenes()[6].getAllele(),
+                (int)theBest.getGenes()[7].getAllele(),
+        };
+
+        ;
+
+        printPositions(board, NUMBER_OF_QUEENS);
+    }
 
     private static void printPositions(int[] board, int N) {
         for(int i = 0; i < N; ++i) {
@@ -112,4 +96,5 @@ public class Main {
             System.out.print("\n");
         }
     }
+
 }

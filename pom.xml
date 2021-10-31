@@ -14,17 +14,17 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/io.jenetics/jenetics -->
-        <dependency>
-            <groupId>io.jenetics</groupId>
-            <artifactId>jenetics</artifactId>
-            <version>6.3.0</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
             <version>3.6.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.sf.jgap/jgap -->
+        <dependency>
+            <groupId>net.sf.jgap</groupId>
+            <artifactId>jgap</artifactId>
+            <version>3.4.4</version>
         </dependency>
 
     </dependencies>
