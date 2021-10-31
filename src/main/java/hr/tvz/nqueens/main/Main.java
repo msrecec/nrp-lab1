@@ -1,6 +1,7 @@
 package hr.tvz.nqueens.main;
 
-import io.jenetics.Gene;
+import io.jenetics.internal.math.Combinatorics;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import java.util.Random;
 
@@ -8,14 +9,22 @@ public class Main {
 
     public static void main(String[] args) {
 
-        int N = 5;
+        int N = 4;
 
         int board [] = new int[N];
 
         board = conventional(board, N);
 
+        double fitness = maxClashes(N) - numberOfConflicts(board, N);
+
         printPositions(board, N);
 
+        System.out.println(fitness);
+
+    }
+
+    private static int maxClashes(int N) {
+        return (int)CombinatoricsUtils.binomialCoefficient(N, 2);
     }
 
     private static int [] setUpConventional(int [] board, int N) {
@@ -31,7 +40,7 @@ public class Main {
     private static int [] conventional(int[] board, int N) {
         while(true) {
             board = setUpConventional(board, N);
-            if(attackAllPositions(board, N) == 0) break;
+            if(numberOfConflicts(board, N) == 0) break;
         }
         return board;
     }
@@ -44,7 +53,7 @@ public class Main {
      * @return
      */
 
-    private static int attackAllPositions(int[] board, int N) {
+    private static int numberOfConflicts(int[] board, int N) {
         return horizontal(board, N) + diagonal(board, N);
     }
 
