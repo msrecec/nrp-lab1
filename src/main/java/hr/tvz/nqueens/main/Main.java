@@ -26,6 +26,14 @@ public class Main {
 //
 //        System.out.println(getFitness(board, N));
 
+        // 4, 0.001, 1000
+
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(N);
+        geneticAlgorithm.setMutation(0.001);
+        geneticAlgorithm.setEpoch(1000);
+
+        System.out.println(geneticAlgorithm.algorithm());
+
 
     }
 
@@ -61,9 +69,6 @@ public class Main {
 
     }
 
-    private static int maxClashes(int N) {
-        return (int)CombinatoricsUtils.binomialCoefficient(N, 2);
-    }
 
     private static int [] setUpConventional(int [] board, int N) {
         Random random = new Random();
@@ -83,6 +88,11 @@ public class Main {
         return board;
     }
 
+
+    private static int maxClashes(int N) {
+        return (int)CombinatoricsUtils.binomialCoefficient(N, 2);
+    }
+
     /**
      * Returns total number of clashes
      *
@@ -91,7 +101,7 @@ public class Main {
      * @return
      */
 
-    private static int numberOfConflicts(int[] board, int N) {
+    public static int numberOfConflicts(int[] board, int N) {
         return horizontal(board, N) + diagonal(board, N);
     }
 
