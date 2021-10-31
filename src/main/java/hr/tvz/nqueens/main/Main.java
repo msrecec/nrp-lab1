@@ -1,6 +1,7 @@
 package hr.tvz.nqueens.main;
 
 import hr.tvz.nqueens.main.entity.QueenFitnessFunction;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.jgap.*;
 import org.jgap.impl.DefaultConfiguration;
@@ -61,27 +62,18 @@ public class Main {
         for (int j = 0; j < NUMBER_OF_QUEENS; j++) {
             geneList.add((Integer) theBest.getGenes()[j].getAllele());
         }
-        for (int j = 0; j < NUMBER_OF_QUEENS; j++) {
-            System.out.println(geneList.get(j).toString());
+        int[] board = {};
+
+        for(int i = 0; i < NUMBER_OF_QUEENS; ++i) {
+            board = ArrayUtils.add(board, (int)theBest.getGenes()[i].getAllele());
         }
+
+        printPositions(board, NUMBER_OF_QUEENS);
+
         System.out.println("Best fitness " + theBest.getFitnessValue());
         System.out.println("Number of evolutions " + evos);
         System.out.println((timeElapsed / 1000000) + "ms");
 
-        int[] board = {
-                (int)theBest.getGenes()[0].getAllele(),
-                (int)theBest.getGenes()[1].getAllele(),
-                (int)theBest.getGenes()[2].getAllele(),
-                (int)theBest.getGenes()[3].getAllele(),
-                (int)theBest.getGenes()[4].getAllele(),
-                (int)theBest.getGenes()[5].getAllele(),
-                (int)theBest.getGenes()[6].getAllele(),
-                (int)theBest.getGenes()[7].getAllele(),
-        };
-
-        ;
-
-        printPositions(board, NUMBER_OF_QUEENS);
     }
 
     private static void printPositions(int[] board, int N) {
