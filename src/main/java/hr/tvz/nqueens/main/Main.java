@@ -2,17 +2,11 @@ package hr.tvz.nqueens.main;
 
 import hr.tvz.nqueens.main.entity.QueenFitnessFunction;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.jgap.*;
 import org.jgap.impl.DefaultConfiguration;
 import org.jgap.impl.IntegerGene;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 
 public class Main {
     private static final int NUMBER_OF_EVOLUTIONS = 500000;
@@ -39,14 +33,14 @@ public class Main {
         conf.setPopulationSize(POPUL);
         Genotype population = Genotype.randomInitialGenotype(conf);
 
-        Chromosome theBest = (Chromosome) population.getFittestChromosome();
+        Chromosome theBest;
         ArrayList<Integer> geneList = new ArrayList<>();
 
         long startTime = System.nanoTime();
 
         for (int i = 0; i < NUMBER_OF_EVOLUTIONS; i++) {
 
-            if (((Chromosome) population.getFittestChromosome())
+            if (population.getFittestChromosome()
                     .getFitnessValue() == (NUMBER_OF_QUEENS * (NUMBER_OF_QUEENS - 1) * 0.5))
                 break;
 
