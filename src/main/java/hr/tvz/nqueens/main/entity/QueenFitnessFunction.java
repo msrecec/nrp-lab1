@@ -24,7 +24,7 @@ public class QueenFitnessFunction extends FitnessFunction {
             temp = geneList.get(i);
             for (int j = i + 1; j < numberOfQueens; j++) {
                 temp2 = geneList.get(j);
-                if (temp == temp2 || (temp2 + i - j) == temp || (temp2 + j - i) == temp)
+                if (temp == temp2 || Math.abs(i - j) == Math.abs(temp - temp2))
                     fitness--;
             }
         }
