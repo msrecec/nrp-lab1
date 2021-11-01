@@ -15,26 +15,26 @@ public class QueenFitnessFunction extends FitnessFunction {
         numberOfQueens = number;
     }
 
-    public double evaluate(IChromosome chrom) {
-        double fitness = numberOfQueens * (numberOfQueens - 1) * (0.5);
-        int temp = 0;
-        int temp2 = 0;
-        ArrayList<Integer> geneList = getGenes((Chromosome) chrom);
+    public double evaluate(IChromosome chromosome) {
+        double fitness = numberOfQueens * (numberOfQueens - 1) / 2;
+        int fi;
+        int fj;
+        ArrayList<Integer> geneList = getGenes((Chromosome) chromosome);
         for (int i = 0; i < numberOfQueens - 1; i++) {
-            temp = geneList.get(i);
+            fi = geneList.get(i);
             for (int j = i + 1; j < numberOfQueens; j++) {
-                temp2 = geneList.get(j);
-                if (temp == temp2 || Math.abs(i - j) == Math.abs(temp - temp2))
+                fj = geneList.get(j);
+                if (fi == fj || Math.abs(i - j) == Math.abs(fi - fj))
                     fitness--;
             }
         }
         return fitness;
     }
 
-    public static ArrayList<Integer> getGenes(Chromosome chrom) {
+    public static ArrayList<Integer> getGenes(Chromosome chromosome) {
         ArrayList<Integer> geneList = new ArrayList<Integer>();
         for (int i = 0; i < numberOfQueens; i++) {
-            geneList.add(getGeneAt(i, chrom));
+            geneList.add(getGeneAt(i, chromosome));
         }
         return geneList;
     }
