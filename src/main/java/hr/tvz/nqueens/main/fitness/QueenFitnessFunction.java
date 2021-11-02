@@ -39,8 +39,8 @@ public class QueenFitnessFunction extends FitnessFunction {
         return geneList;
     }
 
-    public static Integer getGeneAt(int i, Chromosome chrom) {
-        return (Integer) chrom.getGene(i).getAllele();
+    public static Integer getGeneAt(int i, Chromosome chromosome) {
+        return (Integer) chromosome.getGene(i).getAllele();
     }
 
 }

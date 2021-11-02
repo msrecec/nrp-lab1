@@ -8,23 +8,23 @@ import org.jgap.impl.*;
 import java.util.ArrayList;
 
 public class Main {
-    private static final int NUMBER_OF_EVOLUTIONS = 50000;
+    private static final int NUMBER_OF_EVOLUTIONS = 1000000;
     private static final int NUMBER_OF_QUEENS = 8;
-    private static final int POPULATION = 10;
+    private static final int POPULATION = 100;
 
     public static void main(String[] args) throws InvalidConfigurationException {
         int evolutions = 0;
         Configuration conf = new DefaultConfiguration();
         FitnessFunction myFunc = new QueenFitnessFunction(NUMBER_OF_QUEENS);
         conf.setFitnessFunction(myFunc);
-        conf.setKeepPopulationSizeConstant(true);
         conf.setPreservFittestIndividual(true);
+        conf.setKeepPopulationSizeConstant(true);
 
-        CrossoverOperator crossoverOperator = new CrossoverOperator(conf, 80);
-        MutationOperator mutationOperator = new MutationOperator(conf, 25);
+        MutationOperator mutationOperator = new MutationOperator(conf, 10);
+        CrossoverOperator crossoverOperator = new CrossoverOperator(conf, 90);
 
-        conf.addGeneticOperator(crossoverOperator);
         conf.addGeneticOperator(mutationOperator);
+        conf.addGeneticOperator(crossoverOperator);
 
         Gene[] genes = new Gene[NUMBER_OF_QUEENS];
 
