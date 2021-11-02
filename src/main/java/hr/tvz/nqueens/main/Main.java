@@ -1,6 +1,6 @@
 package hr.tvz.nqueens.main;
 
-import hr.tvz.nqueens.main.entity.QueenFitnessFunction;
+import hr.tvz.nqueens.main.fitness.QueenFitnessFunction;
 import org.apache.commons.lang.ArrayUtils;
 import org.jgap.*;
 import org.jgap.impl.DefaultConfiguration;

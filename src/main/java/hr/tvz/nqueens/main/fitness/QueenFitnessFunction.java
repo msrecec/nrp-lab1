@@ -1,4 +1,4 @@
-package hr.tvz.nqueens.main.entity;
+package hr.tvz.nqueens.main.fitness;
 
 import org.jgap.Chromosome;
 import org.jgap.FitnessFunction;
