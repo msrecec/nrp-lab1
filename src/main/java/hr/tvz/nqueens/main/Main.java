@@ -3,15 +3,14 @@ package hr.tvz.nqueens.main;
 import hr.tvz.nqueens.main.fitness.QueenFitnessFunction;
 import org.apache.commons.lang.ArrayUtils;
 import org.jgap.*;
-import org.jgap.impl.DefaultConfiguration;
-import org.jgap.impl.IntegerGene;
+import org.jgap.impl.*;
 
 import java.util.ArrayList;
 
 public class Main {
-    private static final int NUMBER_OF_EVOLUTIONS = 500000;
+    private static final int NUMBER_OF_EVOLUTIONS = 50000;
     private static final int NUMBER_OF_QUEENS = 8;
-    private static final int POPULATION = 200;
+    private static final int POPULATION = 10;
 
     public static void main(String[] args) throws InvalidConfigurationException {
         int evolutions = 0;
@@ -20,6 +19,12 @@ public class Main {
         conf.setFitnessFunction(myFunc);
         conf.setKeepPopulationSizeConstant(true);
         conf.setPreservFittestIndividual(true);
+
+        CrossoverOperator crossoverOperator = new CrossoverOperator(conf, 80);
+        MutationOperator mutationOperator = new MutationOperator(conf, 25);
+
+        conf.addGeneticOperator(crossoverOperator);
+        conf.addGeneticOperator(mutationOperator);
 
         Gene[] genes = new Gene[NUMBER_OF_QUEENS];
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Conventional {
 
-    private static final int numberOfQueens = 30;
+    private static final int numberOfQueens = 11;
 
     public static void main(String[] args) {
 
